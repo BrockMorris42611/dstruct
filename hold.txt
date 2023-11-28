@@ -1,0 +1,12 @@
+void insert(LL*, int, int); ✅
+Node* search(LL*, int); ✅
+void append(LL*, int);//enqueue ✅
+Node* removeTail(LL*);//dequeue
+void insertAtHead(LL*, int); //push ✅
+Node* removeFromHead(LL); //pop
+LL* createLL(int);✅
+LL* createFromArrLL(int*, size_t);✅
+Node* createNode(int);✅
+void toStringLL(LL*);✅
+void freeNode(Node*);✅
+void freeLL(LL*);✅

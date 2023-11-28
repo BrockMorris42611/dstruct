@@ -1,49 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "LinkedList.h"
 
-typedef struct Node{int   data; struct Node* next;}Node;
-typedef struct LinkedList  {Node* head; unsigned int size;}LL;
-
-Node* createNode(int);
-LL* createLL(int);
-LL* createFromArrLL(int*, size_t);
-void toStringLL(LL*);
-void freeNode(Node*);
-void freeLL(LL*);
-
-int main(int argc, char**argv){
-
-    LL* list0 = createLL(5);
-    int randArr[5] = {1,2,3,4,5};
-    LL* list1 = createFromArrLL(randArr, sizeof(randArr)/sizeof(*randArr));
-
-    toStringLL(list0);
-    toStringLL(list1);
-
-    freeLL(list0);
-    freeLL(list1);
-
-    return 0;
-}
-void search(LL* list, int data){
+void insertAtHead(LL* list, Node* newHead){
     if(list == NULL)
+        return;
+    Node* temp = list->head;
+    list->head=newHead;
+    newHead->next = temp;
+    list->size++;
+}
+Node* removeFromHead(LL* list){
+    if(list==NULL)
         return NULL;
+    Node* removedHead = list->head;
+    list->head= list->head->next;
+    list->size--;
+    removedHead->next=NULL;
+    return removedHead;
+}
+Node* removeFromTail(LL* list){ //not working
+    Node* curr = list->head;
+    Node*  prev = NULL;
+    while(curr->next!=NULL){
+        prev=curr;
+        curr=curr->next;
+    }
+    prev->next=NULL;
+    return curr;
+}
+void insert(LL* list, int ind, int data){
+    Node* newNode = createNode(data);
+    if(newNode==NULL || list==NULL)
+        return;
+    Node* curr = list->head;
+    int counter = 0;
+    while(curr!=NULL && counter < ind-1){
+        curr=curr->next;
+        counter++;
+    }
+    Node* temp = curr->next;
+    curr->next = newNode;
+    curr->next->next=temp;
+    list->size++;
+}
+int nodeExists(LL* list, int data){
+    if(list == NULL)
+        return 0;
     Node* curr = list->head;
     while (curr != NULL){
         if(curr->data==data)
-            return curr;
+            return 1;
         curr=curr->next;
     }
-    return NULL;
+    return 0;
 }
 void append(LL* list, int data){
     if(list == NULL)
-        return NULL;
+        return;
     Node* curr = list->head;
     while(curr->next!=NULL)
         curr=curr->next;
     curr->next = createNode(data);
+    list->size++;
 }
 LL* createLL(int data){
     LL* newList = malloc(sizeof(LL));
@@ -79,28 +99,24 @@ Node* createNode(int data){
     newNode->next=NULL;
     return newNode;
 }
-void toStringLL(LL* list) {
-
-    if(list==NULL)
-        return NULL;
-
+void toStringLL(LL* list){
+    if(list==NULL)return;
     Node*curr=list->head;
+    int index = 0;
+    printf("\n\t*******List of size %d*******\n", list->size);
     while (curr!=NULL){
-        printf("%d\n", curr->data);
+        printf("list[%d]>\t%d\n", index, curr->data);
         curr=curr->next;
+        index++;
     }
 }
 void freeLL(LL* list){
-    if(list==NULL)
-        return NULL;
-
+    if(list==NULL)return;
     freeNode(list->head);
     free(list);
 }
 void freeNode(Node* node){
-    if(node==NULL)
-        return NULL;
-
+    if(node==NULL)return;
     if (node != NULL) {
         freeNode(node->next);
         free(node); // Free each node in the linked list
