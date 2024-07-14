@@ -11,8 +11,10 @@ void insertAtHead(LL* list, Node* newHead){
     newHead->next = temp;
     list->size++;
 }
+/*Return Null if list is empty or there is only one element. If neither is 
+  true, then return the head node and assign head to its next value*/
 Node* removeFromHead(LL* list){
-    if(list==NULL)
+    if(list==NULL || list->head->next==NULL)
         return NULL;
     Node* removedHead = list->head;
     list->head= list->head->next;
@@ -20,9 +22,9 @@ Node* removeFromHead(LL* list){
     removedHead->next=NULL;
     return removedHead;
 }
-Node* removeFromTail(LL* list){ //not working
+Node* removeFromTail(LL* list){
     Node* curr = list->head;
-    Node*  prev = NULL;
+    Node* prev = NULL;
     while(curr->next!=NULL){
         prev=curr;
         curr=curr->next;

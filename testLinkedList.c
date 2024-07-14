@@ -1,15 +1,15 @@
 #include "LinkedList.h"
 #include <stdlib.h>
-int oringalTests();
+void oringalTests();
+void u_createLL();
 int main(){
-    LL* list = createLL(5);
-    insertAtHead(list,createNode(6));
-    toStringLL(list);
-
+    oringalTests();
     return EXIT_SUCCESS;
 }
+void u_createLL(){
 
-int oringalTests(){
+}
+void oringalTests(){
     //                0 1 2 3 4
     int randArr[5] = {1,2,3,4,5};
     LL* list = createFromArrLL(randArr, sizeof(randArr)/sizeof(*randArr));
@@ -26,14 +26,13 @@ int oringalTests(){
     toStringLL(list);
     insertAtHead(list, createNode(11));
     toStringLL(list);
+    //errors?
     Node* node = removeFromHead(list);
     printf("\nRemoved head value: %d", node->data);
     freeNode(node);
     Node* node0 = removeFromTail(list);
     printf("\nRemoved tail value: %d", node0->data);
     toStringLL(list);
-    //freeNode(node0);
+    freeNode(node0);
     freeLL(list);
-
-    return 0;
 }
